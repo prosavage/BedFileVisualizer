@@ -118,12 +118,7 @@ public class BedFileVisualizerController {
         double max = Collections.max(sizes);
         ArrayList<Double> normalized = new ArrayList<>();
         sizes.forEach((size) -> {
-            if (size == min) {
-                size = 1 / max;
-            }
-            else{
-                size = (size - min) / max;
-            }
+                size = (size - min) / (max-min);
             normalized.add(size);
         });
 
@@ -132,7 +127,7 @@ public class BedFileVisualizerController {
                 double chrIndex = (double) data.getXValue();
 
                 for (int j = 0; j < 26; j++) {
-                    if (chrIndex <= j + 1) {
+                    if (chrIndex >= j + 1) {
                         String colorRaw = normalized.get(j).toString();
                         data.getNode().setStyle("-fx-background-color: rgba(0, 255, 0," + colorRaw + ")");
                         break;
