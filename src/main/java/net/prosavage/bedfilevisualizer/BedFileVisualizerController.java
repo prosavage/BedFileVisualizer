@@ -1,7 +1,9 @@
 package net.prosavage.bedfilevisualizer;
 
+import com.flexganttfx.view.GanttChart;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -10,13 +12,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
+import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import static net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader.ReadBedFile;
 
 public class BedFileVisualizerController {
     @FXML private AnchorPane anchor_pane;
-    @FXML private Button open_bed_files_button;
+    @FXML private Button open_bed_files_button, test_button;
     @FXML private TextField track_count_text_field, minimum_base_pair_overlap_text_field, overlap_count_text_field;
     @FXML private VBox plot_node;
 
@@ -58,9 +64,12 @@ public class BedFileVisualizerController {
                 System.out.println("Done running bed file client run window~~~"+output_file1.getAbsolutePath());
                 File output_file2 = bed_file_client.runIntersect(new File("TEST2.bed"));
                 System.out.println("Done running bed file client run intersect~~~"+output_file2.getAbsolutePath());
+
+                BEDCell[] PlotData = ReadBedFile(output_file1);
+
             }
             ThePlot the_plot = new ThePlot();
-            plot_node.getChildren().add(the_plot.generatePlot());
+//            plot_node.getChildren().add(the_plot.generatePlot());
         } catch (NumberFormatException exception) {
             System.out.println("Shouldn't happen!!!!");
             return; // Show a pop-up dialog
@@ -73,6 +82,34 @@ public class BedFileVisualizerController {
                 text_field.setText(new_value.replaceAll("[^\\d]", ""));
             }
         });
+    }
+
+    @FXML
+    private void onActionTestButton(ActionEvent action_event) {
+        FileChooser file_chooser = new FileChooser();
+        FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
+        file_chooser.getExtensionFilters().add(extension_filter);
+        File file = file_chooser.showOpenDialog(getStage());
+        BEDCell[] bed_cells = BedFileReader.ReadBedFile(file);
+        String chromosome_1 = bed_cells[0].getChromosome();
+        int min = bed_cells[0].getStart();
+        int max = bed_cells[0].getEnd();
+        ArrayList<BEDCell> chromosome_1_bed_cells = new ArrayList<BEDCell>();
+        for (BEDCell bed_cell :  bed_cells) {
+            if (chromosome_1.equals(bed_cell.getChromosome()) != true) {
+                break;
+            }
+            if (bed_cell.getStart() < min) {
+                min = bed_cell.getStart();
+            }
+            if (bed_cell.getEnd() > max) {
+                max = bed_cell.getEnd();
+            }
+            chromosome_1_bed_cells.add(bed_cell);
+        }
+        ThePlot the_plot = new ThePlot();
+        Node row = the_plot.getRow(chromosome_1,file.getName(),min,max,chromosome_1_bed_cells);
+        plot_node.getChildren().add(row);
     }
 
     private void init() {

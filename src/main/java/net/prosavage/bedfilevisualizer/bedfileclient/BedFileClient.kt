@@ -56,7 +56,6 @@ class BedFileClient
         processBuilder.start()
         return outputFile
     }
-//N, K
 
 
 }

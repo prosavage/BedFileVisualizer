@@ -24,6 +24,30 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.prosavage</groupId>
+            <artifactId>gant-core</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gant-core.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.prosavage</groupId>
+            <artifactId>gant-model</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/flexganttfx-model-8.8.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.prosavage</groupId>
+            <artifactId>gant-extras</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/flexganttfx-extras-8.8.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.prosavage</groupId>
+            <artifactId>gant-view</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/flexganttfx-view-8.8.1.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

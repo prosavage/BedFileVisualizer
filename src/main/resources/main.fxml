@@ -44,7 +44,7 @@
                   </VBox>
                   <Button mnemonicParsing="false" onAction="#onActionGeneratePlotButton" text="GENERATE GRAPH!!!" />
                   <ListView />
-                  <Button mnemonicParsing="false" text="Export Image" />
+                  <Button fx:id="test_button" mnemonicParsing="false" onAction="#onActionTestButton" text="test_button" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />

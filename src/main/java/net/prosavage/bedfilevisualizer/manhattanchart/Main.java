@@ -1,13 +1,10 @@
-package net.prosavage.bedfilevisualizer;
+package net.prosavage.bedfilevisualizer.manhattanchart;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.*;
-import java.util.ArrayList;
 
 public class Main extends Application {
 	//public int[index][section length = min-max][count of occurrence ++] result;
@@ -18,22 +15,16 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
-		primaryStage.setTitle("Hello World");
-		primaryStage.setScene(new Scene(root, 777, 777));
+		Parent root = FXMLLoader.load(getClass().getResource("/manhattanplot.fxml"));
+		primaryStage.setTitle("Manhattan Plot");
+		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
-		Stage stage = new Stage();
-		Parent roo2 = FXMLLoader.load(getClass().getResource("/manhattanplot.fxml"));
-		stage.setTitle("Manhattan Plot");
-		stage.setScene(new Scene(roo2));
-		stage.show();
 
 	}
 
 
 	public static void main(String[] args) {
 		launch(args);
-
 	}
 
 

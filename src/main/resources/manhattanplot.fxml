@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.ScatterChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #bdc3c7;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.prosavage.bedfilevisualizer.manhattanchart.Controller">
+   <children>
+      <ScatterChart fx:id="scatterChart"  prefHeight="720.0" prefWidth="958.0" title="Range Chart">
+        <xAxis>
+          <NumberAxis lowerBound="1.0" minorTickCount="1" minorTickLength="0.0" minorTickVisible="false" side="BOTTOM" tickLabelGap="1.0" tickLength="1.0" tickMarkVisible="false" tickUnit="1.0" upperBound="26.0" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </ScatterChart>
+      <Pane layoutX="958.0" prefHeight="720.0" prefWidth="322.0" style="-fx-background-color: #34495e;">
+         <children>
+            <Button fx:id="doTheThing" layoutX="142.0" layoutY="250.0" mnemonicParsing="false" onAction="#onClick" text="Button" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
