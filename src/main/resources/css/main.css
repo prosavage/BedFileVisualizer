@@ -106,3 +106,7 @@
 .default-color8m.chart-legend-item-symbol{
     -fx-background-color: #e74c3c;
 }
+
+.scroll-pane {
+    -fx-background-color: #263238;
+}

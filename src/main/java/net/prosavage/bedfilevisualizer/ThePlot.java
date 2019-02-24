@@ -21,7 +21,7 @@ public class ThePlot {
     public Node getRow(String chromosome, String name, int min, int max, List<BEDCell> bed_cells, Color color) {
         Canvas canvas = new Canvas();
         System.out.println("Creating Node.");
-        double modifier = (double) 3000 / max;
+        double modifier = (double) 9000 / max;
         double width = (max - min) * modifier;
         canvas.setWidth(width);
         canvas.setHeight(ROW_HEIGHT);

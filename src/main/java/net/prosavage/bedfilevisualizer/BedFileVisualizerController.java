@@ -8,6 +8,7 @@ import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.prosavage.bedfilevisualizer.Util.Util;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReaderWithIterator;
@@ -42,6 +44,9 @@ public class BedFileVisualizerController {
     @FXML
     ScatterChart scatterChart;
     @FXML Pane scatterPlotPlane, mary_graph;
+    @FXML
+    ListView<String> listView;
+    @FXML Label title;
 
 
     private final int DEFAULT_MINIMUM_BASE_PAIR_OVERLAP_COUNT = 1000;
@@ -65,8 +70,12 @@ public class BedFileVisualizerController {
         mary_graph.setScaleZ(99);
         scatterPlotPlane.setOpacity(1);
         scatterPlotPlane.setScaleZ(9999);
+        FileChooser file_chooser = new FileChooser();
+        FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
+        file_chooser.getExtensionFilters().add(extension_filter);
+        File file = file_chooser.showOpenDialog(getStage());
         ArrayList<String> categories = new ArrayList<>();
-        BEDCell[] bedCells = BedFileReader.ReadBedFile(new File(getClass().getResource("/bedfiles/iCellNeuron_HTTLOC_CAPCxHTT_REP3.bed").getFile()));
+        BEDCell[] bedCells = BedFileReader.ReadBedFile(file);
         HashMap<Integer, List<BEDCell>> bedCellMap = new HashMap<>();
         for (BEDCell bedCell : bedCells) {
             if (!categories.contains(bedCell.getChromosome())) {
@@ -128,6 +137,39 @@ public class BedFileVisualizerController {
     }
 
     @FXML
+    private void generateBeds() {
+        FileChooser file_chooser = new FileChooser();
+        FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
+        file_chooser.getExtensionFilters().add(extension_filter);
+        List<File> files = file_chooser.showOpenMultipleDialog(getStage());
+        ArrayList<BedFileReaderWithIterator> file_readers = new ArrayList<>();
+        if (files.size() == 0) {
+            return;
+        }
+        track_count_text_field.setText(files.size() + "");
+        int minimumBasePairOverLap;
+        if (minimum_base_pair_overlap_text_field.getText().isEmpty()) {
+            minimumBasePairOverLap = 1000;
+        } else {
+            minimumBasePairOverLap = Integer.parseInt(minimum_base_pair_overlap_text_field.getText());
+        }
+        int numOverLaps;
+        if (overlap_count_text_field.getText().isEmpty()) {
+            numOverLaps = files.size();
+        } else {
+            numOverLaps = Integer.parseInt(overlap_count_text_field.getText());
+        }
+        BedFileClient bedFileClient = new BedFileClient(files);
+        File output = new File(files.get(0).getParent(), "output.bed");
+        bedFileClient.runWindow(minimumBasePairOverLap, output, numOverLaps);
+        listView.getItems().add(output.getAbsolutePath());
+        Util.setupContextMenu(listView);
+    }
+
+
+
+
+    @FXML
     private void onActionGeneratePlotButton(ActionEvent action_event) {
         if (files == null || files.isEmpty()) {
             System.out.println("NO!");
@@ -174,6 +216,7 @@ public class BedFileVisualizerController {
         mary_graph.setScaleZ(99999);
         scatterPlotPlane.setOpacity(0);
         scatterPlotPlane.setScaleZ(99);
+        plot_node.getChildren().clear();
         //This part will do file chooser shit.
         FileChooser file_chooser = new FileChooser();
         FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
@@ -188,6 +231,7 @@ public class BedFileVisualizerController {
                 return;
             }
         }
+        title.setText("Gantt Graph");
         // This part loops the chormosomes in the actual file.
         int counter = 0;
         for (int i = 0; i < chromosomes.length - 1; i++) {
@@ -238,6 +282,10 @@ public class BedFileVisualizerController {
         makeTextFieldNumberic(minimum_base_pair_overlap_text_field);
         minimum_base_pair_overlap_text_field.setText(Integer.toString(DEFAULT_MINIMUM_BASE_PAIR_OVERLAP_COUNT));
         makeTextFieldNumberic(overlap_count_text_field);
+    }
+
+    private String[][][] hitArray(){
+        return null;
     }
 }
 //I got it! your welc :D

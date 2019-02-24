@@ -9,6 +9,7 @@ public class BedFileReaderWithIterator {
     private final File file;
     private final BufferedReader buffered_reader;
     private BEDCell held_bed_cell = null;
+
     public ArrayList<BEDCell> chromosome_bed_cells; //holding data here for whatever reason
 
     public BedFileReaderWithIterator(File file) throws FileNotFoundException {

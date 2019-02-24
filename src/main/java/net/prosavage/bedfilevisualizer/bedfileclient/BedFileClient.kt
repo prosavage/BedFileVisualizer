@@ -53,7 +53,7 @@ class BedFileClient
     fun runWindow(bp: Int, outputFile: File, kVal: Int): File {
         var processBuilder = ProcessBuilder()
         if (useMultiThreading) {
-            var command = mutableListOf("python", "/home/prosavage/Projects/School/HudsonAlphaTechChallenge/rum.py", kVal.toString())
+            var command = mutableListOf("python", "/home/prosavage/Projects/School/HudsonAlphaTechChallenge/rum.py", kVal.toString(), bp.toString())
             for (file in files!!) {
                 command.add(file.name)
             }
