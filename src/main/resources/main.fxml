@@ -34,22 +34,19 @@
          </children>
       </Pane>
       <TextField fx:id="track_count_text_field" editable="false" focusTraversable="false" layoutX="169.0" layoutY="29.0" maxWidth="-Infinity" prefWidth="100.0" promptText="0" />
-      <Pane fx:id="scatterPlotPlane" prefHeight="720.0" prefWidth="947.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <ScatterChart fx:id="scatterChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="-25.0" prefHeight="705.0" prefWidth="947.0" style="-fx-background-color: #263238; -fx-region-background: #263238; -fx-text-fill: white; -fx-text-color: white;" styleClass="chart-plot-background" title="Range Chart" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-25.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
-            <xAxis>
-               <NumberAxis autoRanging="false" forceZeroInRange="false" label="Chromosomes" lowerBound="1.0" minorTickCount="1" minorTickVisible="false" side="BOTTOM" tickLabelGap="1.0" tickLength="1.0" tickMarkVisible="false" tickUnit="1.0" upperBound="26.0" />
-            </xAxis>
-            <yAxis>
-               <NumberAxis label="Range" side="LEFT" />
-            </yAxis>
-         </ScatterChart>
-      </Pane>
-      <ScrollPane fx:id="mary_graph" layoutX="349.0" layoutY="34.0" maxHeight="720.0" maxWidth="947.0" prefHeight="660.0" prefWidth="913.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fx:id="mary_graph" layoutX="300.0" maxHeight="720.0" maxWidth="947.0" prefHeight="660.0" prefWidth="913.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
             <VBox fx:id="plot_node" spacing="15.0" style="-fx-background-color: #263238;" />
          </content>
       </ScrollPane>
-      <Label fx:id="title" alignment="CENTER" layoutX="790.0" layoutY="14.0" text="Title" textAlignment="CENTER" textFill="WHITE" />
       <Label layoutX="336.0" layoutY="42.0" prefHeight="26.0" prefWidth="28.0" text="Label" />
+      <ScatterChart fx:id="scatterChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="333.0" prefHeight="709.0" prefWidth="938.0" style="-fx-background-color: #263238; -fx-region-background: #263238; -fx-text-fill: white; -fx-text-color: white;" styleClass="chart-plot-background" title="Range Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <xAxis>
+            <NumberAxis autoRanging="false" forceZeroInRange="false" label="Chromosomes" lowerBound="1.0" minorTickCount="1" minorTickVisible="false" side="BOTTOM" tickLabelGap="1.0" tickLength="1.0" tickMarkVisible="false" tickUnit="1.0" upperBound="26.0" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis label="Range" side="LEFT" />
+         </yAxis>
+      </ScatterChart>
    </children>
 </AnchorPane>

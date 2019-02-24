@@ -38,7 +38,6 @@ public class BedFileVisualizerController {
     @FXML private VBox plot_node;
     @FXML
     ScatterChart scatterChart;
-    @FXML Pane scatterPlotPlane;
     @FXML
     ScrollPane mary_graph;
     @FXML
@@ -48,12 +47,12 @@ public class BedFileVisualizerController {
     private List<File> files;
     private String[] chromosomes = {"chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10",
                                     "chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chr20",
-                                    "chr21","chr22","chr23","chrX","chrY","chrM"};
-    private Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
-                              Color.AZURE, Color.BLUE, Color.INDIGO, Color.PURPLE, Color.MAGENTA,
-                              Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
-                              Color.AZURE, Color.BLUE, Color.INDIGO, Color.PURPLE, Color.MAGENTA,
-                              Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
+                                    "chr21","chr22","chrX","chrY","chrM"};
+    private Color[] colors = {Color.valueOf("#1abc9c"), Color.valueOf("#2ecc71"), Color.valueOf("#3498db"), Color.valueOf("#9b59b6"), Color.valueOf("#bdc3c7"),
+            Color.valueOf("#f1c40f"), Color.valueOf("#f39c12"), Color.valueOf("#d35400"), Color.valueOf("#e74c3c"), Color.MAGENTA,
+            Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
+            Color.AZURE, Color.BLUE, Color.INDIGO, Color.PURPLE, Color.MAGENTA,
+            Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
 
     private Stage getStage() {
         return (Stage) anchor_pane.getScene().getWindow();
@@ -63,8 +62,8 @@ public class BedFileVisualizerController {
     public void onClick() {
         mary_graph.setOpacity(0);
         mary_graph.setScaleZ(99);
-        scatterPlotPlane.setOpacity(1);
-        scatterPlotPlane.setScaleZ(9999);
+        scatterChart.setOpacity(1);
+        scatterChart.setScaleZ(9999);
         FileChooser file_chooser = new FileChooser();
         FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
         file_chooser.getExtensionFilters().add(extension_filter);
@@ -78,13 +77,13 @@ public class BedFileVisualizerController {
             }
             switch (bedCell.getChromosome()) {
                 case "chrX":
-                    bedCell.setChromosome("chr24");
+                    bedCell.setChromosome("chr23");
                     break;
                 case "chrY":
-                    bedCell.setChromosome("chr25");
+                    bedCell.setChromosome("chr24");
                     break;
                 case "chrM":
-                    bedCell.setChromosome("chr26");
+                    bedCell.setChromosome("chr25");
                     break;
                 default:
                     break;
@@ -96,7 +95,10 @@ public class BedFileVisualizerController {
             bedCellMap.get(chromosome).add(bedCell);
         }
 
+        ArrayList<Double> sizes = new ArrayList<>();
+
         for (Integer chromosome : bedCellMap.keySet()) {
+            sizes.add((double) bedCellMap.get(chromosome).size());
             double interval = (double) 1 / bedCellMap.get(chromosome).size();
             int counter = 0;
             XYChart.Series series = new XYChart.Series();
@@ -108,9 +110,37 @@ public class BedFileVisualizerController {
                 }
                 series.getData().add(new XYChart.Data(((double) chromosome + (counter * interval)), range));
             }
+
             scatterChart.getData().add(series);
         }
 
+        double min = Collections.min(sizes);
+        double max = Collections.max(sizes);
+        ArrayList<Double> normalized = new ArrayList<>();
+        sizes.forEach((size) -> {
+            if (size == min) {
+                size = 1 / max;
+            }
+            else{
+                size = (size - min) / max;
+            }
+            normalized.add(size);
+        });
+
+        for (XYChart.Series series : (Iterable<XYChart.Series>) scatterChart.getData()) {
+            for (XYChart.Data data : (Iterable<XYChart.Data>) series.getData()) {
+                double chrIndex = (double) data.getXValue();
+
+                for (int j = 0; j < 25; j++) {
+                    if (chrIndex <= j + 1) {
+                        String colorRaw = normalized.get(j).toString();
+                        data.getNode().setStyle("-fx-background-color: rgba(0, 255, 0," + colorRaw + ")");
+                        break;
+                    }
+                }
+            }
+        }
+ //        scatterChart.getData().forEach((series) -> series[1].setStyle("-fx-background-color: #00E5FF"));
     }
 
 
@@ -210,8 +240,8 @@ public class BedFileVisualizerController {
         // Okay so this part just bring mary's part to front.
         mary_graph.setOpacity(1);
         mary_graph.setScaleZ(99999);
-        scatterPlotPlane.setOpacity(0);
-        scatterPlotPlane.setScaleZ(99);
+        scatterChart.setOpacity(0);
+        scatterChart.setScaleZ(99);
         plot_node.getChildren().clear();
         //This part will do file chooser shit.
         FileChooser file_chooser = new FileChooser();
@@ -293,9 +323,9 @@ public class BedFileVisualizerController {
 
 
 }
-//I got it! your welc :D
+
 //
-//wow nice code
+// When your bed file shows intersections in every region
 //
 //%%%%%%%%%%**************,,,,,,,******************************************************//(((#######################((((((
 //%%%%%%%%***************,,,,,,,,,*****************************************************//(((#############(((((((((((((///

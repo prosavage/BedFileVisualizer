@@ -53,58 +53,59 @@
 
 
 .default-color0, .chart-legend-item-symbol{
-    -fx-background-color: #1abc9c;
+    -fx-background-color: rgb(26, 188, 156);
 }
 .default-color0.chart-legend-item-symbol{
-    -fx-background-color: #1abc9c;
+    -fx-background-color: rgb(26, 188, 156);
 }
 .default-color1, .chart-legend-item-symbol{
-    -fx-background-color: #2ecc71;
+    -fx-background-color: rgb(46, 204, 113);
 }
 .default-color1.chart-legend-item-symbol{
-    -fx-background-color: #2ecc71;
+    -fx-background-color: rgb(46, 204, 113);
 }
 .default-color2, .chart-legend-item-symbol{
-    -fx-background-color: #3498db;
+    -fx-background-color: rgb(52, 152, 219);
 }
 .default-color2.chart-legend-item-symbol{
-    -fx-background-color: #3498db;
+    -fx-background-color: rgb(52, 152, 219);
 }
 .default-color3, .chart-legend-item-symbol{
-    -fx-background-color: #9b59b6;
+    -fx-background-color: rgb(155, 89, 182);
 }
 .default-color3.chart-legend-item-symbol{
-    -fx-background-color: #9b59b6;
+    -fx-background-color: rgb(155, 89, 182);
 }
 .default-color4, .chart-legend-item-symbol{
-    -fx-background-color: #bdc3c7;
+    -fx-background-color: rgb(189, 195, 199);
 }
 .default-color4.chart-legend-item-symbol{
-    -fx-background-color: #bdc3c7;
+    -fx-background-color: rgb(189, 195, 199);
 }
 .default-color5, .chart-legend-item-symbol{
-    -fx-background-color: #f1c40f;
+    -fx-background-color: rgb(241, 196, 15);
 }
 .default-color5.chart-legend-item-symbol{
-    -fx-background-color: #f1c40f;
+    -fx-background-color: rgb(241, 196, 15);
 }
 .default-color6, .chart-legend-item-symbol{
-    -fx-background-color: #f39c12;
+    -fx-background-color: rgb(243, 156, 18);
 }
 .default-color6.chart-legend-item-symbol{
-    -fx-background-color: #f39c12;
+    -fx-background-color: rgb(243, 156, 18);
 }
 .default-color7, .chart-legend-item-symbol{
-    -fx-background-color: #d35400;
+    -fx-background-color: rgb(211, 84, 0);
 }
+
 .default-color7.chart-legend-item-symbol{
-    -fx-background-color: #d35400;
+    -fx-background-color: rgb(211, 84, 0);
 }
 .default-color8m, .chart-legend-item-symbol{
-    -fx-background-color: #e74c3c;
+    -fx-background-color: rgb(231, 76, 60);
 }
 .default-color8m.chart-legend-item-symbol{
-    -fx-background-color: #e74c3c;
+    -fx-background-color: rgb(231, 76, 60);
 }
 
 .scroll-pane {
