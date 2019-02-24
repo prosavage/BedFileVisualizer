@@ -20,20 +20,17 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception{
 		Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
 		primaryStage.setTitle("Hello World");
-		primaryStage.setScene(new Scene(root, 777, 777));
+		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/css/main.css");
+		primaryStage.setScene(scene);
 		primaryStage.show();
-		Stage stage = new Stage();
-		Parent roo2 = FXMLLoader.load(getClass().getResource("/manhattanplot.fxml"));
-		stage.setTitle("Manhattan Plot");
-		stage.setScene(new Scene(roo2));
-		stage.show();
+
 
 	}
 
 
 	public static void main(String[] args) {
 		launch(args);
-
 	}
 
 
