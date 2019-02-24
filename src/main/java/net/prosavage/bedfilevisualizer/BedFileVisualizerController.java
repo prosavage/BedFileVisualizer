@@ -131,7 +131,7 @@ public class BedFileVisualizerController {
             for (XYChart.Data data : (Iterable<XYChart.Data>) series.getData()) {
                 double chrIndex = (double) data.getXValue();
 
-                for (int j = 0; j < 25; j++) {
+                for (int j = 0; j < 26; j++) {
                     if (chrIndex <= j + 1) {
                         String colorRaw = normalized.get(j).toString();
                         data.getNode().setStyle("-fx-background-color: rgba(0, 255, 0," + colorRaw + ")");
