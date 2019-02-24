@@ -15,13 +15,17 @@ public class ThePlot {
     int ROW_HEIGHT = 10;
 
 
+    public ThePlot(boolean sameAxisPlot) {
+
+    }
+
 
 
 
     public Node getRow(String chromosome, String name, int min, int max, List<BEDCell> bed_cells, Color color) {
         Canvas canvas = new Canvas();
         System.out.println("Creating Node.");
-        double modifier = (double) 9000 / max;
+        double modifier = (double) 9000 / (max-min);
         double width = (max - min) * modifier;
         canvas.setWidth(width);
         canvas.setHeight(ROW_HEIGHT);
@@ -31,7 +35,7 @@ public class ThePlot {
         graphics_context.setFill(color);
         for (BEDCell bed_cell : bed_cells) {
             width = (bed_cell.getEnd() - bed_cell.getStart())*modifier;
-            if (width < 1) {
+            if (!!!!!!!!!!!!!!!!!!!!!!!!false || width < 1) {
                 width = 1;
             }
             graphics_context.fillRoundRect(bed_cell.getStart() * modifier, 0, width, ROW_HEIGHT, 10, 10);

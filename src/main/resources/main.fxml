@@ -28,7 +28,7 @@
                   <InnerShadow />
                </effect>
             </ListView>
-            <Button fx:id="test_button" layoutX="124.0" layoutY="181.0" mnemonicParsing="false" onAction="#onActionTestButton" text="Gnatt" />
+            <Button fx:id="test_button" layoutX="124.0" layoutY="181.0" mnemonicParsing="false" onAction="#onActionTestButton" text="Gantt" />
             <Button fx:id="doTheThing" layoutX="192.0" layoutY="181.0" mnemonicParsing="false" onAction="#onClick" text="Manhattan" />
             <Button fx:id="heatMap" layoutX="29.0" layoutY="181.0" mnemonicParsing="false" onAction="#onActionTestButton" text="HeatMap" />
          </children>
@@ -44,15 +44,12 @@
             </yAxis>
          </ScatterChart>
       </Pane>
-      <Pane fx:id="mary_graph" layoutX="335.0" layoutY="7.0" opacity="0.0" prefHeight="713.0" prefWidth="947.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ScrollPane layoutX="1.0" layoutY="34.0" maxHeight="720.0" maxWidth="947.0" prefHeight="689.0" prefWidth="947.0">
-               <content>
-                  <VBox fx:id="plot_node" spacing="15.0" style="-fx-background-color: #263238;" />
-               </content>
-            </ScrollPane>
-            <Label fx:id="title" alignment="CENTER" layoutX="457.0" layoutY="14.0" text="Title" textAlignment="CENTER" textFill="WHITE" />
-         </children>
-      </Pane>
+      <ScrollPane fx:id="mary_graph" layoutX="349.0" layoutY="34.0" maxHeight="720.0" maxWidth="947.0" prefHeight="660.0" prefWidth="913.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox fx:id="plot_node" spacing="15.0" style="-fx-background-color: #263238;" />
+         </content>
+      </ScrollPane>
+      <Label fx:id="title" alignment="CENTER" layoutX="790.0" layoutY="14.0" text="Title" textAlignment="CENTER" textFill="WHITE" />
+      <Label layoutX="336.0" layoutY="42.0" prefHeight="26.0" prefWidth="28.0" text="Label" />
    </children>
 </AnchorPane>

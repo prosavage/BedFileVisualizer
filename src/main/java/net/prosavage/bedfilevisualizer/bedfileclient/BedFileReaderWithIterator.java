@@ -15,13 +15,6 @@ public class BedFileReaderWithIterator {
     public BedFileReaderWithIterator(File file) throws FileNotFoundException {
         this.file = file;
         buffered_reader = new BufferedReader(new FileReader(file));
-//        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-//            String line;
-//            while ((line = reader.readLine()) != null)
-//                System.out.println(line);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public BEDCell next() throws IOException {

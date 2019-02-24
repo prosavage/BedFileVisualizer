@@ -6,11 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -25,10 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -43,11 +38,11 @@ public class BedFileVisualizerController {
     @FXML private VBox plot_node;
     @FXML
     ScatterChart scatterChart;
-    @FXML Pane scatterPlotPlane, mary_graph;
+    @FXML Pane scatterPlotPlane;
+    @FXML
+    ScrollPane mary_graph;
     @FXML
     ListView<String> listView;
-    @FXML Label title;
-
 
     private final int DEFAULT_MINIMUM_BASE_PAIR_OVERLAP_COUNT = 1000;
     private List<File> files;
@@ -159,6 +154,7 @@ public class BedFileVisualizerController {
         } else {
             numOverLaps = Integer.parseInt(overlap_count_text_field.getText());
         }
+
         BedFileClient bedFileClient = new BedFileClient(files);
         File output = new File(files.get(0).getParent(), "output.bed");
         bedFileClient.runWindow(minimumBasePairOverLap, output, numOverLaps);
@@ -193,7 +189,7 @@ public class BedFileVisualizerController {
                 BEDCell[] PlotData = ReadBedFile(output_file1);
 
             }
-            ThePlot the_plot = new ThePlot();
+            ThePlot the_plot = new ThePlot(true);
 //            plot_node.getChildren().add(the_plot.generatePlot());
         } catch (NumberFormatException exception) {
             System.out.println("Shouldn't happen!!!!");
@@ -231,7 +227,7 @@ public class BedFileVisualizerController {
                 return;
             }
         }
-        title.setText("Gantt Graph");
+
         // This part loops the chormosomes in the actual file.
         int counter = 0;
         for (int i = 0; i < chromosomes.length - 1; i++) {
@@ -241,9 +237,11 @@ public class BedFileVisualizerController {
             int min = -1;
             int max = -1; int test = 0;
             counter = 0;
+            HBox hbox = new HBox();
+            VBox vbox = new VBox();
             for (BedFileReaderWithIterator file_reader : file_readers) {
                 test++;
-                System.out.print(test);
+                System.out.println(test);
                 ArrayList<BEDCell> chromosome_bed_cells = new ArrayList<>();
                 BEDCell bed_cell;
                 try {
@@ -265,14 +263,23 @@ public class BedFileVisualizerController {
                         System.out.println(bed_cell.getStart() + " " + bed_cell.getEnd() + "  " + bed_cell.getChromosome());
                     }
 
-                    ThePlot the_plot = new ThePlot();
+                    ThePlot the_plot = new ThePlot(true);
                     Node row = the_plot.getRow(current_chromosome, file_reader.getName(), min, max, chromosome_bed_cells, current_color);
-                    plot_node.getChildren().add(row);
+                    if (row != null) {
+                        vbox.getChildren().add(row);
+                    }
+
                 } catch (IOException exception) {
                     System.out.println("IOException oh noooo"); //throw some popup
                     return;
                 }
             }
+            Label chromosome_label = new Label(current_chromosome);
+            chromosome_label.setStyle("-fx-text-color: WHITE;");
+            chromosome_label.setStyle("-fx-text-fill: white;");
+            chromosome_label.setRotate(-90);
+            hbox.getChildren().addAll(chromosome_label, vbox);
+            plot_node.getChildren().add(hbox);
         }
     }
 
@@ -284,9 +291,7 @@ public class BedFileVisualizerController {
         makeTextFieldNumberic(overlap_count_text_field);
     }
 
-    private String[][][] hitArray(){
-        return null;
-    }
+
 }
 //I got it! your welc :D
 //
