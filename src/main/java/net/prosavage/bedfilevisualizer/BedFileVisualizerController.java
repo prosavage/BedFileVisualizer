@@ -1,6 +1,6 @@
 package net.prosavage.bedfilevisualizer;
 
-import com.flexganttfx.view.GanttChart;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
@@ -26,8 +27,16 @@ public class BedFileVisualizerController {
     @FXML private TextField track_count_text_field, minimum_base_pair_overlap_text_field, overlap_count_text_field;
     @FXML private VBox plot_node;
 
-    private int DEFAULT_MINIMUM_BASE_PAIR_OVERLAP_COUNT = 1000;
+    private final int DEFAULT_MINIMUM_BASE_PAIR_OVERLAP_COUNT = 1000;
     private List<File> files;
+    private String[] chromosomes = {"chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10",
+                                    "chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chr20",
+                                    "chr21","chr22","chr23","chrX","chrY","chrM"};
+    private Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
+                              Color.AZURE, Color.BLUE, Color.INDIGO, Color.PURPLE, Color.MAGENTA,
+                              Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN,
+                              Color.AZURE, Color.BLUE, Color.INDIGO, Color.PURPLE, Color.MAGENTA,
+                              Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN};
 
     private Stage getStage() {
         return (Stage) anchor_pane.getScene().getWindow();
@@ -89,15 +98,21 @@ public class BedFileVisualizerController {
         FileChooser file_chooser = new FileChooser();
         FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
         file_chooser.getExtensionFilters().add(extension_filter);
-        File file = file_chooser.showOpenDialog(getStage());
+        List<File> files = file_chooser.showOpenMultipleDialog(getStage());
         BEDCell[] bed_cells = BedFileReader.ReadBedFile(file);
-        String chromosome_1 = bed_cells[0].getChromosome();
+        String current_chromosome = bed_cells[0].getChromosome();
         int min = bed_cells[0].getStart();
         int max = bed_cells[0].getEnd();
-        ArrayList<BEDCell> chromosome_1_bed_cells = new ArrayList<BEDCell>();
+        ArrayList<BEDCell> current_chromosome_bed_cells = new ArrayList<BEDCell>();
+        ThePlot the_plot = new ThePlot();
         for (BEDCell bed_cell :  bed_cells) {
-            if (chromosome_1.equals(bed_cell.getChromosome()) != true) {
-                break;
+            if (current_chromosome.equals(bed_cell.getChromosome()) != true) {
+                Node row = the_plot.getRow(current_chromosome,file.getName(),min,max,current_chromosome_bed_cells);
+                plot_node.getChildren().add(row);
+                current_chromosome = bed_cell.getChromosome();
+                min = bed_cell.getStart();
+                max = bed_cell.getEnd();
+                current_chromosome_bed_cells.clear();
             }
             if (bed_cell.getStart() < min) {
                 min = bed_cell.getStart();
@@ -105,10 +120,9 @@ public class BedFileVisualizerController {
             if (bed_cell.getEnd() > max) {
                 max = bed_cell.getEnd();
             }
-            chromosome_1_bed_cells.add(bed_cell);
+            current_chromosome_bed_cells.add(bed_cell);
         }
-        ThePlot the_plot = new ThePlot();
-        Node row = the_plot.getRow(chromosome_1,file.getName(),min,max,chromosome_1_bed_cells);
+        Node row = the_plot.getRow(current_chromosome,file.getName(),min,max,current_chromosome_bed_cells);
         plot_node.getChildren().add(row);
     }
 

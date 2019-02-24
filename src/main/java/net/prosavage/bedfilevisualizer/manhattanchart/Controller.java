@@ -1,19 +1,17 @@
 package net.prosavage.bedfilevisualizer.manhattanchart;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.BubbleChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
+import kotlin.contracts.ContractBuilderKt;
 import net.prosavage.bedfilevisualizer.BEDCell;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Controller {
 
@@ -30,12 +28,13 @@ public class Controller {
 
 	@FXML
 	public void onClick() {
-		BEDCell[] bedCells = BedFileReader.ReadBedFile(new File(getClass().getResource("/TEST2.bed").getFile()));
+		ArrayList<String> categories = new ArrayList<>();
+		BEDCell[] bedCells = BedFileReader.ReadBedFile(new File(getClass().getResource("/bedfiles/iCellNeuron_HTTLOC_CAPCxHTT_REP3.bed").getFile()));
 		HashMap<Integer, List<BEDCell>> bedCellMap = new HashMap<>();
-
-
 		for (BEDCell bedCell : bedCells) {
-			int range = bedCell.getEnd() - bedCell.getStart();
+			if (!categories.contains(bedCell.getChromosome())) {
+				categories.add(bedCell.getChromosome());
+			}
 			switch (bedCell.getChromosome()) {
 				case "chrX":
 					bedCell.setChromosome("chr24");
@@ -50,6 +49,9 @@ public class Controller {
 					break;
 			}
 			int chromosome = Integer.parseInt(bedCell.getChromosome().replace("chr", ""));
+			if (!bedCellMap.containsKey(chromosome)) {
+				bedCellMap.put(chromosome, new ArrayList<>(Arrays.asList(bedCell)));
+			}
 			bedCellMap.get(chromosome).add(bedCell);
 		}
 
@@ -59,12 +61,18 @@ public class Controller {
 			XYChart.Series series = new XYChart.Series();
 			for (BEDCell bedCell : bedCellMap.get(chromosome)) {
 				counter++;
-				series.getData().add(new XYChart.Data((double) chromosome + (counter * interval), bedCell.getEnd() - bedCell.getStart()));
+				int range = bedCell.getEnd() - bedCell.getStart();
+				if (range > 10000) {
+					range = (int) Math.log(range);
+				}
+				series.getData().add(new XYChart.Data(((double) chromosome + (counter * interval)), range));
 			}
 			scatterChart.getData().add(series);
-
-		((NumberAxis) scatterChart.getXAxis()).setUpperBound(26);
 		}
+
+
+
+
 
 	}
 }
