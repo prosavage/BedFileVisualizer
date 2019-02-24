@@ -33,17 +33,8 @@
          </children>
       </Pane>
       <TextField fx:id="track_count_text_field" editable="false" focusTraversable="false" layoutX="169.0" layoutY="29.0" maxWidth="-Infinity" prefWidth="100.0" promptText="0" />
-      <Pane fx:id="mary_graph" layoutX="335.0" layoutY="7.0" opacity="0.0" prefHeight="713.0" prefWidth="947.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ScrollPane layoutX="12.0" layoutY="18.0">
-               <content>
-                  <VBox fx:id="plot_node" spacing="15.0" />
-               </content>
-            </ScrollPane>
-         </children>
-      </Pane>
       <Pane fx:id="scatterPlotPlane" prefHeight="720.0" prefWidth="947.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <ScatterChart fx:id="scatterChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="-25.0" prefHeight="720.0" prefWidth="958.0" style="-fx-background-color: #263238; -fx-region-background: #263238; -fx-text-fill: white; -fx-text-color: white;" styleClass="chart-plot-background" title="Range Chart" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-25.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
+         <ScatterChart fx:id="scatterChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="-25.0" prefHeight="705.0" prefWidth="947.0" style="-fx-background-color: #263238; -fx-region-background: #263238; -fx-text-fill: white; -fx-text-color: white;" styleClass="chart-plot-background" title="Range Chart" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-25.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
             <xAxis>
                <NumberAxis autoRanging="false" forceZeroInRange="false" label="Chromosomes" lowerBound="1.0" minorTickCount="1" minorTickVisible="false" side="BOTTOM" tickLabelGap="1.0" tickLength="1.0" tickMarkVisible="false" tickUnit="1.0" upperBound="26.0" />
             </xAxis>
@@ -51,6 +42,15 @@
                <NumberAxis label="Range" side="LEFT" />
             </yAxis>
          </ScatterChart>
+      </Pane>
+      <Pane fx:id="mary_graph" layoutX="335.0" layoutY="7.0" opacity="0.0" prefHeight="713.0" prefWidth="947.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="333.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane layoutX="12.0" layoutY="18.0" maxHeight="683.0" maxWidth="920.0" prefHeight="683.0" prefWidth="918.0">
+               <content>
+                  <VBox fx:id="plot_node" spacing="15.0" />
+               </content>
+            </ScrollPane>
+         </children>
       </Pane>
    </children>
 </AnchorPane>

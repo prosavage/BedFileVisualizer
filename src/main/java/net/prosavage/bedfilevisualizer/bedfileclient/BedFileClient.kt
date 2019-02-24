@@ -26,12 +26,16 @@ class BedFileClient
      * This is the first part.
      */
     fun runIntersect(outputFile: File): File {
-        if (useMultiThreading) {
-            // TODO: Call python.
-        }
-
         var processBuilder = ProcessBuilder()
-        processBuilder.command("bedtools","intersect", "-a", this.files!![0].path, "-b" , files!![1].path)
+        if (useMultiThreading) {
+            var command = mutableListOf("python", "/home/prosavage/Projects/School/HudsonAlphaTechChallenge/rum.py", files!!.size.toString())
+            for (file in files!!) {
+                command.add(file.name)
+            }
+            processBuilder.command(command)
+        } else {
+            processBuilder.command("bedtools","intersect", "-a", this.files!![0].path, "-b" , files!![1].path)
+        }
         processBuilder.directory(this.files!![0].parentFile)
         processBuilder.redirectOutput(outputFile)
         processBuilder.start()
@@ -49,7 +53,7 @@ class BedFileClient
     fun runWindow(bp: Int, outputFile: File, kVal: Int): File {
         var processBuilder = ProcessBuilder()
         if (useMultiThreading) {
-            var command = mutableListOf("python", "run.py", kVal.toString())
+            var command = mutableListOf("python", "/home/prosavage/Projects/School/HudsonAlphaTechChallenge/rum.py", kVal.toString())
             for (file in files!!) {
                 command.add(file.name)
             }

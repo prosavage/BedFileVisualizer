@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReaderWithIterator;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +27,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader.ReadBedFile;
 
@@ -56,6 +61,10 @@ public class BedFileVisualizerController {
 
     @FXML
     public void onClick() {
+        mary_graph.setOpacity(0);
+        mary_graph.setScaleZ(99);
+        scatterPlotPlane.setOpacity(1);
+        scatterPlotPlane.setScaleZ(9999);
         ArrayList<String> categories = new ArrayList<>();
         BEDCell[] bedCells = BedFileReader.ReadBedFile(new File(getClass().getResource("/bedfiles/iCellNeuron_HTTLOC_CAPCxHTT_REP3.bed").getFile()));
         HashMap<Integer, List<BEDCell>> bedCellMap = new HashMap<>();
@@ -160,10 +169,12 @@ public class BedFileVisualizerController {
 
     @FXML
     private void onActionTestButton(ActionEvent action_event) {
+        // Okay so this part just bring mary's part to front.
         mary_graph.setOpacity(1);
         mary_graph.setScaleZ(99999);
         scatterPlotPlane.setOpacity(0);
         scatterPlotPlane.setScaleZ(99);
+        //This part will do file chooser shit.
         FileChooser file_chooser = new FileChooser();
         FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
         file_chooser.getExtensionFilters().add(extension_filter);
@@ -177,18 +188,26 @@ public class BedFileVisualizerController {
                 return;
             }
         }
-        for (int i = 0; i < chromosomes.length; i++) {
+        // This part loops the chormosomes in the actual file.
+        int counter = 0;
+        for (int i = 0; i < chromosomes.length - 1; i++) {
             String current_chromosome = chromosomes[i];
+            System.out.println(current_chromosome);
             Color current_color = colors[i];
             int min = -1;
-            int max = -1;
+            int max = -1; int test = 0;
+            counter = 0;
             for (BedFileReaderWithIterator file_reader : file_readers) {
+                test++;
+                System.out.print(test);
                 ArrayList<BEDCell> chromosome_bed_cells = new ArrayList<>();
                 BEDCell bed_cell;
                 try {
                     while ((bed_cell = file_reader.next()) != null) {
-                        if (current_chromosome.equals(bed_cell.getChromosome()) != true) {
-                            file_readers.get(i).holdBEDCell(bed_cell);
+                        if (!current_chromosome.equals(bed_cell.getChromosome())) {
+                            System.out.println("End of " + current_chromosome);
+                            file_readers.get(counter).holdBEDCell(bed_cell);
+                            counter++;
                             break;
                         }
                         if (bed_cell.getStart() < min || min < 0) {
@@ -198,20 +217,22 @@ public class BedFileVisualizerController {
                             max = bed_cell.getEnd();
                         }
                         chromosome_bed_cells.add(bed_cell);
+                        System.out.println(current_chromosome);
+                        System.out.println(bed_cell.getStart() + " " + bed_cell.getEnd() + "  " + bed_cell.getChromosome());
                     }
-                    file_reader.chromosome_bed_cells = chromosome_bed_cells;
+
+                    ThePlot the_plot = new ThePlot();
+                    Node row = the_plot.getRow(current_chromosome, file_reader.getName(), min, max, chromosome_bed_cells, current_color);
+                    plot_node.getChildren().add(row);
                 } catch (IOException exception) {
                     System.out.println("IOException oh noooo"); //throw some popup
                     return;
                 }
             }
-            for (BedFileReaderWithIterator file_reader : file_readers) {
-                ThePlot the_plot = new ThePlot();
-                Node row = the_plot.getRow(current_chromosome, file_reader.getName(), min, max, file_reader.chromosome_bed_cells, current_color);
-                plot_node.getChildren().add(row);
-            }
         }
     }
+
+
 
     private void init() {
         makeTextFieldNumberic(minimum_base_pair_overlap_text_field);

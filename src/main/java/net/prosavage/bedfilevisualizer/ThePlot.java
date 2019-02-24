@@ -20,21 +20,23 @@ public class ThePlot {
 
     public Node getRow(String chromosome, String name, int min, int max, List<BEDCell> bed_cells, Color color) {
         Canvas canvas = new Canvas();
-        double modifier = 3000.0/max;
-        double width = (max - min)*modifier;
+        System.out.println("Creating Node.");
+        double modifier = (double) 3000 / max;
+        double width = (max - min) * modifier;
         canvas.setWidth(width);
         canvas.setHeight(ROW_HEIGHT);
         GraphicsContext graphics_context = canvas.getGraphicsContext2D();
-        graphics_context.setFill(Color.CYAN);
-        graphics_context.fillRoundRect(0, 0, width, ROW_HEIGHT/2, 0, 0);
+        graphics_context.setFill(Color.BLACK);
+        graphics_context.fillRoundRect(0, 0, width, (double) ROW_HEIGHT / 2, 0, 0);
         graphics_context.setFill(color);
         for (BEDCell bed_cell : bed_cells) {
             width = (bed_cell.getEnd() - bed_cell.getStart())*modifier;
             if (width < 1) {
                 width = 1;
             }
-            graphics_context.fillRoundRect(bed_cell.getStart()*modifier, 0, width, ROW_HEIGHT, 10, 10);
+            graphics_context.fillRoundRect(bed_cell.getStart() * modifier, 0, width, ROW_HEIGHT, 10, 10);
         }
+        System.out.println("Returning Canvas");
         return canvas;
     }
 private String chromosome;
