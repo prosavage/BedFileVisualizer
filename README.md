@@ -8,11 +8,11 @@ The Goal of the program is to help researchers find rare diseases easily by firs
 performing functions such as intersection, window, multi-intersection on the bed files
 Then by visualizing said bed files below:
 
-[graph-rainbow]: https://i.imgur.com/eHkIRPN.png 'The graph seems to not be found :('
+[graph-rainbow]: https://i.imgur.com/eHkIRPN.png?raw=true 'The graph seems to not be found :('
 
-[graph-heat-map]: https://i.imgur.com/rm3t04e.png 'The graph seems to not be found :('
+[graph-heat-map]: https://i.imgur.com/rm3t04e.png?raw=true 'The graph seems to not be found :('
 
-[graph-gantt]: https://i.imgur.com/pYb9eHN.png 'The graph seems to not be found :('
+[graph-gantt]: https://i.imgur.com/pYb9eHN.png?raw=true 'The graph seems to not be found :('
 
 
 
