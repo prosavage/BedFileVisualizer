@@ -9,7 +9,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -18,16 +17,11 @@ import net.prosavage.bedfilevisualizer.Util.Util;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileClient;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader;
 import net.prosavage.bedfilevisualizer.bedfileclient.BedFileReaderWithIterator;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader.ReadBedFile;
 
@@ -62,8 +56,10 @@ public class BedFileVisualizerController {
     public void onClick() {
         mary_graph.setOpacity(0);
         mary_graph.setScaleZ(99);
+        mary_graph.setDisable(true);
         scatterChart.setOpacity(1);
         scatterChart.setScaleZ(9999);
+        scatterChart.setDisable(false);
         FileChooser file_chooser = new FileChooser();
         FileChooser.ExtensionFilter extension_filter = new FileChooser.ExtensionFilter("BED files (*.bed)", "*.bed");
         file_chooser.getExtensionFilters().add(extension_filter);
@@ -127,7 +123,7 @@ public class BedFileVisualizerController {
                 double chrIndex = (double) data.getXValue();
 
                 for (int j = 0; j < 26; j++) {
-                    if (chrIndex >= j + 1) {
+                    if (chrIndex < j + 1) {
                         String colorRaw = normalized.get(j).toString();
                         data.getNode().setStyle("-fx-background-color: rgba(0, 255, 0," + colorRaw + ")");
                         break;
@@ -234,9 +230,11 @@ public class BedFileVisualizerController {
     private void onActionTestButton(ActionEvent action_event) {
         // Okay so this part just bring mary's part to front.
         mary_graph.setOpacity(1);
-        mary_graph.setScaleZ(99999);
+        mary_graph.setScaleZ(9999);
+        mary_graph.setDisable(false);
         scatterChart.setOpacity(0);
         scatterChart.setScaleZ(99);
+        scatterChart.setDisable(true);
         plot_node.getChildren().clear();
         //This part will do file chooser shit.
         FileChooser file_chooser = new FileChooser();
