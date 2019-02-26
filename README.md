@@ -16,7 +16,8 @@ Then by visualizing said bed files below:
 
 
 
-###About Bed Files
+### About Bed Files
+
 BED (Browser Extensible Data) format provides a flexible way to define the data lines that are displayed in an annotation track.
 BED lines have three required fields and nine additional optional fields. The number of fields per line must be consistent 
 throughout any single set of data in an annotation track. The order of the optional fields is binding: lower-numbered fields
