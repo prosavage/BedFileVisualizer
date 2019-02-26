@@ -5,7 +5,8 @@ This tool is still under construction.
 This program aims to provide people with the ability to visualize BED files. 
 If you do not know what a BED file is please see the About Bed Files section.
 The Goal of the program is to help researchers find rare diseases easily by first
-performing functions such as intersection, window, multi-intersection on the bed files
+performing functions such as intersection, window, multi-intersection on the bed files.
+
 Then by visualizing said bed files below:
 
 ![graph-rainbow](https://i.imgur.com/eHkIRPN.png?raw=true)
