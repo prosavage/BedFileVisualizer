@@ -23,8 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-import static net.prosavage.bedfilevisualizer.bedfileclient.BedFileReader.ReadBedFile;
-
 public class BedFileVisualizerController {
     @FXML private AnchorPane anchor_pane;
     @FXML private Button open_bed_files_button, test_button;
@@ -178,45 +176,12 @@ public class BedFileVisualizerController {
 
         BedFileClient bedFileClient = new BedFileClient(files);
         File output = new File(files.get(0).getParent(), "output.bed");
-        bedFileClient.runWindow(minimumBasePairOverLap, output, numOverLaps);
+		 bedFileClient.runIntersect(output);
         listView.getItems().add(output.getAbsolutePath());
         Util.setupContextMenu(listView);
     }
 
 
-
-
-    @FXML
-    private void onActionGeneratePlotButton(ActionEvent action_event) {
-        if (files == null || files.isEmpty()) {
-            System.out.println("NO!");
-            return;  // Show a pop-up dialog
-        }
-        try {
-            int minimum_overlap = Integer.parseInt(minimum_base_pair_overlap_text_field.getText());
-            int k = Integer.parseInt(overlap_count_text_field.getText());
-            if (k == 2) {
-                BedFileClient bed_file_client = new BedFileClient(this.files);
-
-                File file = new File(getClass().getResource("/TEST1.bed").getPath());
-                if (overlap_count_text_field.getText() == null || overlap_count_text_field.getText().isEmpty()) {
-                    overlap_count_text_field.setText(files.size() + "");
-                }
-                File output_file1 = bed_file_client.runWindow(100, file, Integer.parseInt(overlap_count_text_field.getText()));
-                System.out.println("Done running bed file client run window~~~"+output_file1.getAbsolutePath());
-                File output_file2 = bed_file_client.runIntersect(new File("TEST2.bed"));
-                System.out.println("Done running bed file client run intersect~~~"+output_file2.getAbsolutePath());
-
-                BEDCell[] PlotData = ReadBedFile(output_file1);
-
-            }
-            ThePlot the_plot = new ThePlot(true);
-//            plot_node.getChildren().add(the_plot.generatePlot());
-        } catch (NumberFormatException exception) {
-            System.out.println("Shouldn't happen!!!!");
-            return; // Show a pop-up dialog
-        }
-    }
 
     private void makeTextFieldNumberic(TextField text_field) {
         text_field.textProperty().addListener((observable, old_value, new_value) -> {
